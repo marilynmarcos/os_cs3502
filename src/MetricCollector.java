@@ -23,7 +23,6 @@ public class MetricCollector {
         init("README.md");
         bufferedWriter.write("# JOB COMPLETION METRICS\n");
         bufferedWriter.write("Job ID: ID number of the job.\n");
-        bufferedWriter.write("CPU ID: ID number of the cpu that ran the job.\n");
         bufferedWriter.write("Waiting Time: Time in seconds that the job was waiting to be run.\n");
         bufferedWriter.write("Completion Time: Time in seconds that the job took to complete.\n");
         bufferedWriter.write("I/O Processes: Number of I/O processes that the job makes during its lifespan.\n");
@@ -32,7 +31,6 @@ public class MetricCollector {
         bufferedWriter.write("Job Cache % Used: The percentage of cache of the assigned cpu used by this job.\n");
         bufferedWriter.newLine();
         bufferedWriter.write("# CPU COMPLETION METRICS\n");
-        bufferedWriter.write("CPU ID: ID number of the cpu that ran the job.\n");
         bufferedWriter.write("Completion Time: Time in seconds that the cpu took to complete all assigned jobs.\n");
         bufferedWriter.write("I/O Processes: Number of I/O processes that the cpu makes during its lifespan.\n");
         bufferedWriter.write("Number of Jobs: Total number of jobs the CPU runs during its lifespan.\n");
@@ -57,13 +55,13 @@ public class MetricCollector {
      */
     static void listJobMetrics() throws IOException {
         bufferedWriter.write("# JOB COMPLETION METRICS\n");
-        bufferedWriter.write("Job ID,CPU ID,Waiting Time,Completion Time,I/O Processes,MMU RAM % Used,Job RAM % Used,Job Cache % Used\n");
+        bufferedWriter.write("Job ID,Waiting Time,Completion Time,I/O Processes,MMU RAM % Used,Job RAM % Used,Job Cache % Used\n");
         for (PCB job : Scheduler.jobs) {
             long waitingTime = job.getStartTime() - globalStartTime;
             double mmuPercentRam = (double) Math.round((double) job.getRamUsage() / Driver.ram_size * 1000) / 1000;
             double jobPercentRam = (double) Math.round((double) job.getTotalSize() / Driver.ram_size * 1000) / 1000;
             double jobPercentCache = (double) Math.round((double) job.getCacheUsage() / Driver.cache_size * 1000) / 1000;
-            bufferedWriter.write(job.getJobId() + "," + job.getCurrentCpu().getCpuId() + "," + waitingTime + "," +
+            bufferedWriter.write(job.getJobId() + "," + waitingTime + "," +
                     job.getCompletionTime() + "," + job.getNumIoProcesses() + "," + mmuPercentRam + "," + jobPercentRam
                     + "," + jobPercentCache + "\n");
         }
@@ -75,10 +73,10 @@ public class MetricCollector {
      */
     static void listCpuMetrics() throws IOException {
         bufferedWriter.write("# CPU COMPLETION METRICS\n");
-        bufferedWriter.write("CPU ID,Completion Time,I/O Processes,Number of Jobs,% of Jobs\n");
+        bufferedWriter.write("Completion Time,I/O Processes,Number of Jobs,% of Jobs\n");
         for (CPU cpu : Scheduler.instructions) {
             double percentJobs = (double) Math.round((double) cpu.getJobCount() / Driver.job_count * 1000) / 1000;
-            bufferedWriter.write(cpu.getCpuId() + "," + cpu.getCompletionTime() + "," + cpu.getIoProcesses()
+            bufferedWriter.write(cpu.getCompletionTime() + "," + cpu.getIoProcesses()
                     + "," + cpu.getJobCount() + "," + percentJobs + "\n");
         }
     }

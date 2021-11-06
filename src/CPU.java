@@ -9,7 +9,7 @@ public class CPU extends Thread {
 
     // CPU Identification Info
     private PCB currentJob;
-    private final int cpuId;
+//    private final int cpuId;
     private CpuState cpuState;
 
     // Determine opcode by indexing opcodeArray
@@ -42,7 +42,7 @@ public class CPU extends Thread {
 
     public CPU (int id) {
         this.startTime = System.currentTimeMillis();
-        this.cpuId = id;
+//        this.cpuId = id;
         this.cpuState = CpuState.FREE;
     }
 
@@ -140,9 +140,9 @@ public class CPU extends Thread {
     Register[] getRegisters() {
         return registers;
     }
-    public int getCpuId() {
-        return cpuId;
-    }
+//    public int getCpuId() {
+//        return cpuId;
+//    }
     public long getCompletionTime() {
         return completionTime - startTime;
     }
@@ -397,6 +397,6 @@ public class CPU extends Thread {
 
     @Override
     public String toString() {
-        return "ID: " + cpuId + " | State: " + cpuState;
+        return "| State: " + cpuState;
     }
 }

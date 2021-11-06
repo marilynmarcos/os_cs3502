@@ -35,6 +35,7 @@ public class Scheduler {
 
     /**
      * Add a CPU to the list of CPUs.
+     * Right now we only have one CPU, but part 2 we will need 4.
      */
     static void addCpu(CPU cpu) {
         instructions.add(cpu);
@@ -42,7 +43,6 @@ public class Scheduler {
 
     /**
      * Determine if there is a remaining job in the queue.
-     * Synchronized to avoid a race condition between multiple CPUs.
      */
     static synchronized boolean hasNext() {
         PCB nextJob;

@@ -54,9 +54,7 @@ public class PCB implements Comparable<PCB> {
     int getJobId() {
         return jobId;
     }
-    int getProgramCounter() {
-        return pc;
-    }
+
     void incrementProgramCounter() {
         pc++;
     }
@@ -196,8 +194,6 @@ public class PCB implements Comparable<PCB> {
         info.add("numInstr: " + numInstructions);
         info.add("State: " + jobState);
         info.add("RAM: " + ramStart + "-" + ramEnd);
-        info.add("cpu: " + currentCpu);
-
         StringBuilder finalOutput = new StringBuilder();
         finalOutput.append("| ");
         for (String s : info) {
