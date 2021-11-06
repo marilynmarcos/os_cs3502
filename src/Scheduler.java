@@ -11,13 +11,17 @@ public class Scheduler {
      * Load 30 jobs into an array
      */
     public static final ArrayList<PCB> jobs = new ArrayList<>();
+
+    /**
+     * Load instruction set into an array
+     */
     public static ArrayList<CPU> instructions = new ArrayList<>();
+
     private static final PriorityQueue<PCB> priority_queue = new PriorityQueue<>();
     private static final LinkedList<PCB> fifo_queue = new LinkedList<>();
 
     /**
-     * Add a job to either the FIFO or Priority queue.
-     * @param job The job to be added.
+     * Add job
      */
     static void addJob(PCB job) {
         job.setAddedTime(System.currentTimeMillis());
@@ -31,7 +35,6 @@ public class Scheduler {
 
     /**
      * Add a CPU to the list of CPUs.
-     * @param cpu The CPU to be added.
      */
     static void addCpu(CPU cpu) {
         instructions.add(cpu);
@@ -40,7 +43,6 @@ public class Scheduler {
     /**
      * Determine if there is a remaining job in the queue.
      * Synchronized to avoid a race condition between multiple CPUs.
-     * @return True if there is a remaining job.
      */
     static synchronized boolean hasNext() {
         PCB nextJob;
@@ -52,11 +54,7 @@ public class Scheduler {
         return nextJob == null;
     }
 
-    /**
-     * Return the next job in the queue.
-     * Synchronized to avoid a race condition between multiple CPUs.
-     * @return The PCB object of the next job.
-     */
+
     static synchronized PCB nextJob() {
         PCB nextJob;
         if (policy == scheduler.PRIORITY) {
@@ -70,6 +68,9 @@ public class Scheduler {
         }
         return nextJob;
     }
+
+
+
 
     /**
      * Signal an interrupt on a CPU.
