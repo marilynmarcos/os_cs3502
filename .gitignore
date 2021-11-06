@@ -1,0 +1,6 @@
+target/**
+*.iml
+.idea/**
+
+# Project exclude paths
+/out/
