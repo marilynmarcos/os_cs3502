@@ -16,9 +16,7 @@ public class Driver {
     public static void main(String[] args) throws InterruptedException, IOException, BrokenBarrierException {
         MetricCollector.printInfo();
         exec(1, Scheduler.SchedulerMode.FIFO);
-        exec(4, Scheduler.SchedulerMode.FIFO);
         exec(1, Scheduler.SchedulerMode.PRIORITY);
-        exec(4, Scheduler.SchedulerMode.PRIORITY);
     }
 
     /**
