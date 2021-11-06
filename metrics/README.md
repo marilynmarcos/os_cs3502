@@ -6,9 +6,3 @@ I/O Processes: Number of I/O processes that the job makes during its lifespan.
 MMU RAM % Used: At the time the job is run, percentage of RAM used by all jobs.
 Job RAM % Used: The percentage of RAM used by this job.
 Job Cache % Used: The percentage of cache of the assigned cpu used by this job.
-
-# CPU COMPLETION METRICS
-Completion Time: Time in seconds that the cpu took to complete all assigned jobs.
-I/O Processes: Number of I/O processes that the cpu makes during its lifespan.
-Number of Jobs: Total number of jobs the CPU runs during its lifespan.
-% of Jobs: Percentage of jobs the CPU runs out of the total job pool.

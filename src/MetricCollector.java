@@ -29,12 +29,6 @@ public class MetricCollector {
         bufferedWriter.write("MMU RAM % Used: At the time the job is run, percentage of RAM used by all jobs.\n");
         bufferedWriter.write("Job RAM % Used: The percentage of RAM used by this job.\n");
         bufferedWriter.write("Job Cache % Used: The percentage of cache of the assigned cpu used by this job.\n");
-        bufferedWriter.newLine();
-        bufferedWriter.write("# CPU COMPLETION METRICS\n");
-        bufferedWriter.write("Completion Time: Time in seconds that the cpu took to complete all assigned jobs.\n");
-        bufferedWriter.write("I/O Processes: Number of I/O processes that the cpu makes during its lifespan.\n");
-        bufferedWriter.write("Number of Jobs: Total number of jobs the CPU runs during its lifespan.\n");
-        bufferedWriter.write("% of Jobs: Percentage of jobs the CPU runs out of the total job pool.\n");
         close();
     }
 
@@ -45,7 +39,6 @@ public class MetricCollector {
     static void printAllMetrics() throws IOException {
         listJobMetrics();
         bufferedWriter.newLine();
-        listCpuMetrics();
         close();
     }
 
@@ -67,19 +60,6 @@ public class MetricCollector {
         }
     }
 
-    /**
-     * Write the CPU Metrics to the file.
-     * @throws IOException When file cannot be written to.
-     */
-    static void listCpuMetrics() throws IOException {
-        bufferedWriter.write("# CPU COMPLETION METRICS\n");
-        bufferedWriter.write("Completion Time,I/O Processes,Number of Jobs,% of Jobs\n");
-        for (CPU cpu : Scheduler.instructions) {
-            double percentJobs = (double) Math.round((double) cpu.getJobCount() / Driver.job_count * 1000) / 1000;
-            bufferedWriter.write(cpu.getCompletionTime() + "," + cpu.getIoProcesses()
-                    + "," + cpu.getJobCount() + "," + percentJobs + "\n");
-        }
-    }
 
     /**
      * Close the buffered writer.
