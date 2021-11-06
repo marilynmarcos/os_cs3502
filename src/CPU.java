@@ -27,7 +27,7 @@ public class CPU extends Thread {
 
     // Memory
     private Register[] registers = new Register[16];
-    private final String[] cache = new String[Driver.cacheSize];
+    private final String[] cache = new String[Driver.cache_size];
 
     // Program continuation variables
     private int pc;
@@ -101,7 +101,7 @@ public class CPU extends Thread {
                 while (continueExecution && pc < currentJob.getNumInstructions()) {
                     // Artificial exec time for each instruction
                     try {
-                        Thread.sleep(Driver.msThreadDelay);
+                        Thread.sleep(Driver.thread_delay);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

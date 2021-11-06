@@ -2,16 +2,14 @@ import java.io.IOException;
 import java.util.concurrent.*;
 
 /**
- * Main OS Execution Driver.
+ * Main Class
  */
 public class Driver {
-
-    // CONFIGURATION
-    static int ramSize = 1024;
-    static int diskSize = 2048;
-    static int cacheSize = 128;
-    static int jobCount = 30;
-    static int msThreadDelay = 0;
+    static int disk_size = 2048;
+    static int ram_size = 1024;
+    static int cache_size = 128;
+    static int job_count = 30;
+    static int thread_delay = 0;
 
     public static void main(String[] args) throws InterruptedException, IOException, BrokenBarrierException {
         MetricCollector.printInfo();

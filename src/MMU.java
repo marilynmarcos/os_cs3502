@@ -5,8 +5,8 @@ import java.util.concurrent.Semaphore;
  */
 class MMU
 {
-    static String[] ram = new String[Driver.ramSize];
-    static String[] disk = new String[Driver.diskSize];
+    static String[] ram = new String[Driver.ram_size];
+    static String[] disk = new String[Driver.disk_size];
 
     /**
      * Initialize Memory Management Unit with empty values.
