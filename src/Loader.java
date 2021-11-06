@@ -13,28 +13,28 @@ class Loader
         try {
             File f = new File("src/instructions.txt");
             Scanner scanner = new Scanner(f);
-            PCB currentPcb = null;
+            PCB current_pcb = null;
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
                 if (line.startsWith("//")) {
                     String[] instrCodes = line.substring(3).split(" ");
                     switch (instrCodes[0]) {
                         case "JOB": {
-                            currentPcb = new PCB(instrCodes[1], instrCodes[2], instrCodes[3], index);
+                            current_pcb = new PCB(instrCodes[1], instrCodes[2], instrCodes[3], index);
                             break;
                         }
                         case "Data": {
-                            if (currentPcb != null) {
-                                currentPcb.setInputBufferSize(Integer.parseInt(instrCodes[1], 16));
-                                currentPcb.setOutputBufferSize(Integer.parseInt(instrCodes[2], 16));
-                                currentPcb.setTempBufferSize(Integer.parseInt(instrCodes[3], 16));
+                            if (current_pcb != null) {
+                                current_pcb.setInputBufferSize(Integer.parseInt(instrCodes[1], 16));
+                                current_pcb.setOutputBufferSize(Integer.parseInt(instrCodes[2], 16));
+                                current_pcb.setTempBufferSize(Integer.parseInt(instrCodes[3], 16));
                             }
                             break;
                         }
                         case "END": {
-                            if (currentPcb != null) {
-                                currentPcb.setJobState(PCB.JobState.READY);
-                                Scheduler.addJob(currentPcb);
+                            if (current_pcb != null) {
+                                current_pcb.setJobState(PCB.JobState.READY);
+                                Scheduler.addJob(current_pcb);
                             }
                             break;
                         }

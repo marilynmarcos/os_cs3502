@@ -9,8 +9,8 @@ public class CPU extends Thread {
     private PCB current_job;
     private cpu_state cpu_state;
 
-    // Determine opcode by indexing opcodeArray
-    private final String[] opcodeArray = {"RD", "WR", "ST", "LW", "MOV", "ADD", "SUB", "MUL", "DIV", "AND",
+    // Index opcd array
+    private final String[] opcd = {"RD", "WR", "ST", "LW", "MOV", "ADD", "SUB", "MUL", "DIV", "AND",
             "OR", "MOVI", "ADDI", "MULI", "DIVI", "LDI", "SLT", "SLTI", "HLT", "NOP", "JMP", "BEQ",
             "BNE", "BEZ", "BNZ", "BGZ", "BLZ"};
 
@@ -39,7 +39,6 @@ public class CPU extends Thread {
 
     public CPU (int id) {
         this.startTime = System.currentTimeMillis();
-//        this.cpuId = id;
         this.cpu_state = cpu_state.FREE;
     }
 
@@ -71,9 +70,9 @@ public class CPU extends Thread {
         // Chars 0-1 indicate type of instruction (arithmetic, conditional, etc)
         instructionFormat(binary.substring(0, 2));
 
-        // Chars 2-7 specify opcode of action. This is converted to decimal and used to index opcodeArray
+        // Chars 2-7 specify opcode of action. This is converted to decimal and used to index opcd
         String opcodeBinary = binary.substring(2, 8);
-        evaluate(opcodeArray[Integer.parseInt(opcodeBinary, 2)]);
+        evaluate(opcd[Integer.parseInt(opcodeBinary, 2)]);
     }
 
     /**
