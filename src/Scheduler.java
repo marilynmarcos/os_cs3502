@@ -1,11 +1,11 @@
 import java.util.*;
 
 /**
- * Schedules jobs based on priority.
+ * Schedules jobs with FIFO or Priority scheduling policy.
  */
 public class Scheduler {
 
-    public static SchedulerMode mode;
+    public static scheduler mode;
 
     public static final ArrayList<PCB> jobList = new ArrayList<>();
     public static ArrayList<CPU> cpuList = new ArrayList<>();
@@ -20,7 +20,7 @@ public class Scheduler {
     static void addJob(PCB job) {
         job.setAddedTime(System.currentTimeMillis());
         jobList.add(job);
-        if (mode == SchedulerMode.PRIORITY) {
+        if (mode == scheduler.PRIORITY) {
             priorityQueue.add(job);
         } else {
             fifoQueue.add(job);
@@ -42,7 +42,7 @@ public class Scheduler {
      */
     static synchronized boolean hasNext() {
         PCB nextJob;
-        if (mode == SchedulerMode.PRIORITY) {
+        if (mode == scheduler.PRIORITY) {
             nextJob = priorityQueue.peek();
         } else {
             nextJob = fifoQueue.peek();
@@ -57,7 +57,7 @@ public class Scheduler {
      */
     static synchronized PCB nextJob() {
         PCB nextJob;
-        if (mode == SchedulerMode.PRIORITY) {
+        if (mode == scheduler.PRIORITY) {
             nextJob = priorityQueue.poll();
         } else {
             nextJob = fifoQueue.poll();
@@ -89,7 +89,7 @@ public class Scheduler {
     /**
      * An enum that holds possible scheduler modes.
      */
-    public enum SchedulerMode {
+    public enum scheduler {
         FIFO,
         PRIORITY
     }

@@ -10,18 +10,19 @@ public class Driver {
     static int cache_size = 128;
     static int job_count = 30;
     static int thread_delay = 0;
+    
 
     public static void main(String[] args) throws InterruptedException, IOException, BrokenBarrierException {
         MetricCollector.printInfo();
-        exec(1, Scheduler.SchedulerMode.FIFO);
-        exec(1, Scheduler.SchedulerMode.PRIORITY);
+        exec(1, Scheduler.scheduler.FIFO);
+        exec(1, Scheduler.scheduler.PRIORITY);
     }
 
     /**
      * Reset the simulation for another run.
      * @param mode The mode of the scheduler (FIFO vs PRIORITY).
      */
-    static void reset(Scheduler.SchedulerMode mode) {
+    static void reset(Scheduler.scheduler mode) {
         Scheduler.cpuList.clear();
         Scheduler.jobList.clear();
         Scheduler.mode = mode;
@@ -37,7 +38,7 @@ public class Driver {
      * @throws IOException When MetricCollector cannot write to files.
      * @throws InterruptedException When ExecutorService cannot execute threads.
      */
-    static void exec(int cores, Scheduler.SchedulerMode mode) throws IOException, InterruptedException {
+    static void exec(int cores, Scheduler.scheduler mode) throws IOException, InterruptedException {
         // Reset simulation
         reset(mode);
 
