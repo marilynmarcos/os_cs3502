@@ -21,7 +21,7 @@ class Dispatcher {
         // Load Instructions and data into RAM
         cpu.setRegisters(job.getRegisters());
         cpu.resetProgramCounter();
-        cpu.setCurrentJob(job);
+        cpu.setcurrent_job(job);
         job.setStartTime(System.currentTimeMillis());
         System.out.println(job);
     }
@@ -49,6 +49,6 @@ class Dispatcher {
     static void unloadJob(PCB job, CPU cpu) {
         job.setCompletionTime(System.currentTimeMillis());
         job.setRegisters(cpu.getRegisters());
-        cpu.setCurrentJob(null);
+        cpu.setcurrent_job(null);
     }
 }

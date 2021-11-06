@@ -3,14 +3,11 @@ import java.util.Arrays;
 
 /**
  * Core Processing Unit.
- * A class to handle execution of instructions read from memory.
  */
 public class CPU extends Thread {
 
-    // CPU Identification Info
-    private PCB currentJob;
-//    private final int cpuId;
-    private CpuState cpuState;
+    private PCB current_job;
+    private cpu_state cpu_state;
 
     // Determine opcode by indexing opcodeArray
     private final String[] opcodeArray = {"RD", "WR", "ST", "LW", "MOV", "ADD", "SUB", "MUL", "DIV", "AND",
@@ -43,7 +40,7 @@ public class CPU extends Thread {
     public CPU (int id) {
         this.startTime = System.currentTimeMillis();
 //        this.cpuId = id;
-        this.cpuState = CpuState.FREE;
+        this.cpu_state = cpu_state.FREE;
     }
 
     /**
@@ -93,12 +90,12 @@ public class CPU extends Thread {
             PCB nextJob = Scheduler.nextJob();
             if (nextJob != null) {
                 jobCount++;
-                cpuState = CpuState.EXECUTING;
+                cpu_state = cpu_state.EXECUTING;
                 Dispatcher.loadJob(nextJob, this);
                 nextJob.setRamUsage(MMU.getRamUsage());
                 loadInstructionsToCache();
                 nextJob.setCacheUsage(getCacheUsage());
-                while (continueExecution && pc < currentJob.getNumInstructions()) {
+                while (continueExecution && pc < current_job.getNumInstructions()) {
                     // Artificial exec time for each instruction
                     try {
                         Thread.sleep(Driver.thread_delay);
@@ -107,12 +104,12 @@ public class CPU extends Thread {
                     }
                     String hex = fetch(pc);
                     pc++;
-                    currentJob.incrementProgramCounter();
+                    current_job.incrementProgramCounter();
                     decode(hex);
                 }
-                MMU.clearBits(currentJob.getRamStart(), currentJob.getRamEnd());
-                Dispatcher.unloadJob(currentJob, this);
-                cpuState = CpuState.FREE;
+                MMU.clearBits(current_job.getRamStart(), current_job.getRamEnd());
+                Dispatcher.unloadJob(current_job, this);
+                cpu_state = cpu_state.FREE;
                 clearCache();
             }
         }
@@ -125,11 +122,11 @@ public class CPU extends Thread {
         this.pc = 0;
         this.continueExecution = true;
     }
-    void setCurrentJob(PCB job) {
-        this.currentJob = job;
+    void setcurrent_job(PCB job) {
+        this.current_job = job;
     }
-    PCB getCurrentJob() {
-        return currentJob;
+    PCB getcurrent_job() {
+        return current_job;
     }
     void setHasInterrupt(boolean interrupt) {
         this.hasInterrupt = interrupt;
@@ -140,18 +137,7 @@ public class CPU extends Thread {
     Register[] getRegisters() {
         return registers;
     }
-//    public int getCpuId() {
-//        return cpuId;
-//    }
-    public long getCompletionTime() {
-        return completionTime - startTime;
-    }
-    public int getIoProcesses() {
-        return ioProcesses;
-    }
-    public int getJobCount() {
-        return jobCount;
-    }
+
 
     /**
      * Clear the cache array when the job is unloaded.
@@ -164,8 +150,8 @@ public class CPU extends Thread {
      * Read instructions for the current job from RAM into cache.
      */
     void loadInstructionsToCache() {
-        for (int i = 0; i < currentJob.getTotalSize(); i++) {
-            cache[i] = MMU.loadRam(currentJob.getRamStart() + i);
+        for (int i = 0; i < current_job.getTotalSize(); i++) {
+            cache[i] = MMU.loadRam(current_job.getRamStart() + i);
         }
     }
 
@@ -235,13 +221,13 @@ public class CPU extends Thread {
                     registers[reg1Index].data = Integer.parseInt(cache[addressIndex], 16);
                 }
                 ioProcesses++;
-                currentJob.incrementIoProcesses();
+                current_job.incrementIoProcesses();
                 break;
             }
             case "WR": {
                 cache[addressIndex] = Integer.toHexString(registers[reg1Index].data);
                 ioProcesses++;
-                currentJob.incrementIoProcesses();
+                current_job.incrementIoProcesses();
                 break;
             }
             case "ST": {
@@ -390,13 +376,13 @@ public class CPU extends Thread {
     /**
      * An enum that depicts the current state of the CPU.
      */
-    public enum CpuState {
+    public enum cpu_state {
         FREE,
         EXECUTING
     }
 
     @Override
     public String toString() {
-        return "| State: " + cpuState;
+        return "| State: " + cpu_state;
     }
 }
