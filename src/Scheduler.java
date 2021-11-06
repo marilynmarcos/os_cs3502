@@ -5,25 +5,27 @@ import java.util.*;
  */
 public class Scheduler {
 
-    public static scheduler mode;
-
-    public static final ArrayList<PCB> jobList = new ArrayList<>();
-    public static ArrayList<CPU> cpuList = new ArrayList<>();
-
-    private static final PriorityQueue<PCB> priorityQueue = new PriorityQueue<>();
-    private static final LinkedList<PCB> fifoQueue = new LinkedList<>();
+    public static scheduler policy;
+    
+    /**
+     * Load 30 jobs into an array
+     */
+    public static final ArrayList<PCB> jobs = new ArrayList<>();
+    public static ArrayList<CPU> instructions = new ArrayList<>();
+    private static final PriorityQueue<PCB> priority_queue = new PriorityQueue<>();
+    private static final LinkedList<PCB> fifo_queue = new LinkedList<>();
 
     /**
-     * Add a job to either the fifo or priority queue.
+     * Add a job to either the FIFO or Priority queue.
      * @param job The job to be added.
      */
     static void addJob(PCB job) {
         job.setAddedTime(System.currentTimeMillis());
-        jobList.add(job);
-        if (mode == scheduler.PRIORITY) {
-            priorityQueue.add(job);
+        jobs.add(job);
+        if (policy == scheduler.PRIORITY) {
+            priority_queue.add(job);
         } else {
-            fifoQueue.add(job);
+            fifo_queue.add(job);
         }
     }
 
@@ -32,7 +34,7 @@ public class Scheduler {
      * @param cpu The CPU to be added.
      */
     static void addCpu(CPU cpu) {
-        cpuList.add(cpu);
+        instructions.add(cpu);
     }
 
     /**
@@ -42,10 +44,10 @@ public class Scheduler {
      */
     static synchronized boolean hasNext() {
         PCB nextJob;
-        if (mode == scheduler.PRIORITY) {
-            nextJob = priorityQueue.peek();
+        if (policy == scheduler.PRIORITY) {
+            nextJob = priority_queue.peek();
         } else {
-            nextJob = fifoQueue.peek();
+            nextJob = fifo_queue.peek();
         }
         return nextJob == null;
     }
@@ -57,10 +59,10 @@ public class Scheduler {
      */
     static synchronized PCB nextJob() {
         PCB nextJob;
-        if (mode == scheduler.PRIORITY) {
-            nextJob = priorityQueue.poll();
+        if (policy == scheduler.PRIORITY) {
+            nextJob = priority_queue.poll();
         } else {
-            nextJob = fifoQueue.poll();
+            nextJob = fifo_queue.poll();
         }
 
         if (nextJob != null) {
@@ -87,7 +89,7 @@ public class Scheduler {
     }
 
     /**
-     * An enum that holds possible scheduler modes.
+     * An enum that holds possible scheduler policys.
      */
     public enum scheduler {
         FIFO,
