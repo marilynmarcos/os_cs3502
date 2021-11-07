@@ -11,7 +11,7 @@ class Loader
     static void load() {
         int index = 0;
         try {
-            File f = new File("src/instructions.txt");
+            File f = new File("src/Program-File-Wordversion-30-JOBS.txt");
             Scanner scanner = new Scanner(f);
             PCB current_pcb = null;
             while (scanner.hasNext()) {

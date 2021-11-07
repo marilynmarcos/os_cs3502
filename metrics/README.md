@@ -1,4 +1,4 @@
-# JOB COMPLETION METRICS
+# Job Metrics
 Job ID: ID number of the job.
 Waiting Time: Time in seconds that the job was waiting to be run.
 Completion Time: Time in seconds that the job took to complete.

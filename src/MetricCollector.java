@@ -21,7 +21,7 @@ public class MetricCollector {
      */
     static void printInfo() throws IOException {
         init("README.md");
-        bufferedWriter.write("# JOB COMPLETION METRICS\n");
+        bufferedWriter.write("# Job Metrics\n");
         bufferedWriter.write("Job ID: ID number of the job.\n");
         bufferedWriter.write("Waiting Time: Time in seconds that the job was waiting to be run.\n");
         bufferedWriter.write("Completion Time: Time in seconds that the job took to complete.\n");
@@ -47,7 +47,7 @@ public class MetricCollector {
      * @throws IOException When file cannot be written to.
      */
     static void listJobMetrics() throws IOException {
-        bufferedWriter.write("# JOB COMPLETION METRICS\n");
+        bufferedWriter.write("# Job Metrics\n");
         bufferedWriter.write("Job ID,Waiting Time,Completion Time,I/O Processes,MMU RAM % Used,Job RAM % Used,Job Cache % Used\n");
         for (PCB job : Scheduler.jobs) {
             long waitingTime = job.getStartTime() - globalStartTime;
