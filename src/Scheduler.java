@@ -69,9 +69,6 @@ public class Scheduler {
         return nextJob;
     }
 
-
-
-
     /**
      * Signal an interrupt on a CPU.
      * @param cpu The CPU to be interrupted.

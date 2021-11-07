@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.util.concurrent.*;
 
 /**
- * Main Class
+ * Main Class Driver
  */
 public class Driver {
     static int disk_size = 2048;
@@ -43,12 +43,11 @@ public class Driver {
         reset(policy);
 
         // Initialize MetricCollector to a new file
-        MetricCollector.init(policy.toString().toLowerCase() + "-" + cores + "-core.csv");
+        MetricCollector.init(policy.toString().toLowerCase() + ".csv");
 
         // Create CPU threads without starting
         for (int i = 0; i < cores; i++) {
             CPU cpu = new CPU(i);
-            cpu.setName("CPU " + i);
             Scheduler.addCpu(cpu);
         }
 

@@ -76,14 +76,10 @@ public class CPU extends Thread {
     }
 
     /**
-     * Main thread execution of the CPU class.
-     * Each CPU will independently check for remaining jobs and execute them accordingly.
+     * Check for remaining jobs and execute them accordingly.
      */
     @Override
     public void run() {
-
-        // TODO: interrupt handling
-        //  check if jobs complete successfully
 
         while (!Scheduler.hasNext()) {
             PCB nextJob = Scheduler.nextJob();
