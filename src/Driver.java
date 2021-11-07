@@ -43,7 +43,7 @@ public class Driver {
         reset(policy);
 
         // Initialize MetricCollector to a new file
-        MetricCollector.init(policy.toString().toLowerCase() + ".csv");
+        MetricCollector.init(policy.toString() + ".csv");
 
         // Create CPU threads without starting
         for (int i = 0; i < cores; i++) {
@@ -53,7 +53,7 @@ public class Driver {
 
         // Use ExecutorService to start threads all at once
         ExecutorService executorService = Executors.newCachedThreadPool();
-        MetricCollector.setGlobalStartTime(System.currentTimeMillis());
+        MetricCollector.start_time(System.currentTimeMillis());
         for (CPU cpu : Scheduler.instructions) {
             executorService.execute(cpu);
         }
@@ -61,6 +61,6 @@ public class Driver {
         // Wait for all threads to complete
         executorService.shutdown();
         executorService.awaitTermination(5, TimeUnit.MINUTES);
-        MetricCollector.printAllMetrics();
+        MetricCollector.print_metrics();
     }
 }

@@ -32,15 +32,6 @@ public class MetricCollector {
         close();
     }
 
-    /**
-     * Print all Simulation Metrics to the file.
-     * @throws IOException When file cannot be written to.
-     */
-    static void printAllMetrics() throws IOException {
-        listJobMetrics();
-        bufferedWriter.newLine();
-        close();
-    }
 
     /**
      * Write the individual Job Metrics to the file.
@@ -59,17 +50,25 @@ public class MetricCollector {
                     + "," + jobPercentCache + "\n");
         }
     }
+    /**
+     * Print all Simulation Metrics to the file.
+     * @throws IOException When file cannot be written to.
+     */
+
+    static void print_metrics() throws IOException {
+        listJobMetrics();
+        bufferedWriter.newLine();
+        close();
+    }
 
 
+    static void start_time(long time) {
+        globalStartTime = time;
+    }
     /**
      * Close the buffered writer.
-     * @throws IOException When the writer fails to close.
      */
     static void close() throws IOException {
         bufferedWriter.close();
-    }
-
-    static void setGlobalStartTime(long time) {
-        globalStartTime = time;
     }
 }
