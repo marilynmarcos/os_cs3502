@@ -14,7 +14,7 @@ class Dispatcher {
         int ramStartIndex = accessRam(totalSize, diskStartIndex);
         int ramEndIndex = ramStartIndex + totalSize;
 
-        job.setCurrentCpu(cpu);
+        job.setCurrrentCPU(cpu);
         job.setRamStart(ramStartIndex);
         job.setRamEnd(ramEndIndex);
 

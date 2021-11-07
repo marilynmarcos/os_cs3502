@@ -90,7 +90,7 @@ public class CPU extends Thread {
                 nextJob.setRamUsage(MMU.getRamUsage());
                 loadInstructionsToCache();
                 nextJob.setCacheUsage(getCacheUsage());
-                while (continueExecution && pc < current_job.getNumInstructions()) {
+                while (continueExecution && pc < current_job.getNumberofInstructions()) {
                     // Artificial exec time for each instruction
                     try {
                         Thread.sleep(Driver.thread_delay);

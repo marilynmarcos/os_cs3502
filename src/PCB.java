@@ -1,121 +1,65 @@
 import java.util.ArrayList;
 
-/**
- * Process Control Block.
- */
+// Process Control Block //
+
 public class PCB implements Comparable<PCB> {
 
-    // JOB INFORMATION
+    // Job information
     private final int jobId;
-    private int pc;
+    private int ProgramCounter;
     private final int priority;
 
-    // JOB STATE
-    private JobState jobState;
-    private CPU current_cpu;
+    // Job Status
+    private JobState state;
+    private CPU CurrrentCPU;
     private Register[] registers = new Register[16];
 
-    // INSTRUCTION INFORMATION
-    private final int numInstructions;
+    // Instructor Information
+    private final int NumberofInstructions;
     private int inputBufferSize;
     private int outputBufferSize;
     private int tempBufferSize;
 
-    // DISK POINTERS
+    // RAM Pointers
+    private int RamStart;
+    private int RamEnd;
+
+    // Disk Pointers
     private final int diskStart;
 
-    // RAM POINTERS
-    private int ramStart;
-    private int ramEnd;
-
-    // METRICS
-    private long addedTime;
+    // Metric Values
+    private long AddedTime;
     private long startTime;
     private long completionTime;
     private int ramUsage;
     private int cacheUsage;
     private int numIoProcesses = 0;
 
-    PCB(String jobId, String numInstructions, String priority, int diskStart) {
+    PCB(String jobId, String NumberofInstructions, String priority, int diskStart) {
         this.jobId = Integer.parseInt(jobId, 16);
-        this.pc = 0;
-        this.numInstructions = Integer.parseInt(numInstructions, 16);
+        this.ProgramCounter = 0;
+        this.NumberofInstructions = Integer.parseInt(NumberofInstructions, 16);
         this.priority = Integer.parseInt(priority, 16);
         this.diskStart = diskStart;
-        this.jobState = JobState.NEW;
+        this.state = JobState.NEW;
 
         // Initialize Registers
         for (int i = 0; i < this.registers.length; i++) {
             this.registers[i] = new Register();
         }
     }
-
-    // Getters/setters
-    int getJobId() {
-        return jobId;
-    }
-
-    void incrementProgramCounter() {
-        pc++;
-    }
-    int getPriority() {
-        return priority;
-    }
-    JobState getJobState() {
-        return jobState;
-    }
-    void setJobState(JobState jobState) {
-        this.jobState = jobState;
-    }
-    void setCurrentCpu(CPU cpu) {
-        this.current_cpu = cpu;
-    }
-    Register[] getRegisters() {
-        return registers;
-    }
-    void setRegisters(Register[] registers) {
-        this.registers = registers;
-    }
-    int getNumInstructions() {
-        return numInstructions;
-    }
-    void setInputBufferSize(int inputBufferSize) {
-        this.inputBufferSize = inputBufferSize;
-    }
-    void setOutputBufferSize(int outputBufferSize) {
-        this.outputBufferSize = outputBufferSize;
-    }
-    void setTempBufferSize(int tempBufferSize) {
-        this.tempBufferSize = tempBufferSize;
-    }
-    int getTotalSize() {
-        return numInstructions + inputBufferSize + outputBufferSize + tempBufferSize;
-    }
-    int getDiskStart() {
-        return diskStart;
-    }
-    int getRamStart() {
-        return ramStart;
-    }
-    void setRamStart(int index) {
-        this.ramStart = index;
-    }
-    int getRamEnd() {
-        return ramEnd;
-    }
-    void setRamEnd(int index) {
-        this.ramEnd = index;
-    }
-
-    // METRICS
+    // Metric Values
     void setAddedTime(long time) {
-        this.addedTime = time;
+        this.AddedTime = time;
     }
     void setStartTime(long time) {
         this.startTime = time;
     }
     void setCompletionTime(long time) {
         this.completionTime = time;
+    }
+    long getAddedTime() {
+        return AddedTime;
     }
     long getStartTime() {
         return startTime;
@@ -142,39 +86,94 @@ public class PCB implements Comparable<PCB> {
         numIoProcesses++;
     }
 
-    /**
-     * An enum that holds possible job state values.
-     */
+    // Getters & setters
+    int getJobId() {
+        return jobId;
+    }
+
+    int getProgramCounter(){
+        return ProgramCounter;
+    }
+    int getPriority() {
+        return priority;
+    }
+    JobState getJobState() {
+        return state;
+    }
+    void setJobState(JobState state) {
+        this.state = state;
+    }
+    // An enum for all possible job states.
     public enum JobState {
         BLOCKED,
         READY,
         NEW,
         RUNNING;
     }
+    void incrementProgramCounter() {
+        ProgramCounter++;
+    }
 
-    /**
-     * A comparable override method that holds instructions for comparing two PCB objects.
-     * This is primarily used by the implementation of the Scheduler's priority queue.
-     * First, jobs are ranked by the current state, with blocked jobs having the highest priority.
-     * Jobs of similar ranking are secondly sorted by their priority value that is contained in the job control cards.
-     * Finally, jobs with the state and priority are ranked by their number of instructions, with the least number
-     * taking priority.
-     * @param pcb The job to compare against this job.
-     * @return (See below)
-     *      -1 if job x has a lower priority than job y
-     *      0 if job x has an equal priority to job y
-     *      1 if job x has a higher priority than job y
-     */
+    void setCurrrentCPU(CPU cpu) {
+        this.CurrrentCPU = cpu;
+    }
+    CPU getCurrrentCPU() {
+        return CurrrentCPU;
+    }
+    Register[] getRegisters() {
+        return registers;
+    }
+    void setRegisters(Register[] registers) {
+        this.registers = registers;
+    }
+    int getNumberofInstructions() {
+        return NumberofInstructions;
+    }
+
+    //Buffers
+    void setInputBufferSize(int inputBufferSize) {
+        this.inputBufferSize = inputBufferSize;
+    }
+    void setOutputBufferSize(int outputBufferSize) {
+        this.outputBufferSize = outputBufferSize;
+    }
+    void setTempBufferSize(int tempBufferSize) {
+        this.tempBufferSize = tempBufferSize;
+    }
+    int getTotalSize() {
+        return NumberofInstructions + inputBufferSize + outputBufferSize + tempBufferSize;
+    }
+    int getDiskStart() {
+        return diskStart;
+    }
+    int getRamStart() {
+        return RamStart;
+    }
+    void setRamStart(int index) {
+        this.RamStart = index;
+    }
+    int getRamEnd() {
+        return RamEnd;
+    }
+    void setRamEnd(int index) {
+        this.RamEnd = index;
+    }
+
+
     @Override
     public int compareTo(PCB pcb) {
-        int stateCompare = jobState.compareTo(pcb.getJobState());
+        int stateCompare = state.compareTo(pcb.getJobState());
         int priorityCompare = Integer.compare(priority, pcb.getPriority());
-        int numInstrCompare = Integer.compare(numInstructions, pcb.numInstructions);
+        int NumberCompare = Integer.compare(NumberofInstructions, pcb.NumberofInstructions);
 
-        // Order is selected based on state, then priority, then number of instructions
+        // Order of Scheduler's priority queue
+        //1. state
+        //2. priority
+        //3. number of instructions
+
         if (stateCompare == 0) {
             if (priorityCompare == 0) {
-                return numInstrCompare;
+                return NumberCompare;
             } else {
                 return priorityCompare;
             }
@@ -185,15 +184,15 @@ public class PCB implements Comparable<PCB> {
 
     @Override
     public String toString() {
-        ArrayList<String> info = new ArrayList<>();
-        info.add("ID: " + jobId);
-        info.add("Priority: " + priority);
-        info.add("numInstr: " + numInstructions);
-        info.add("State: " + jobState);
-        info.add("RAM: " + ramStart + "-" + ramEnd);
+        ArrayList<String> jobInfo = new ArrayList<>();
+        jobInfo.add("Job ID: " + jobId);
+        jobInfo.add("Job Priority: " + priority);
+        jobInfo.add("Number of instructions: " + NumberofInstructions);
+        jobInfo.add("Job State: " + state);
+        jobInfo.add("RAM: " + RamStart + "-" + RamEnd);
         StringBuilder finalOutput = new StringBuilder();
         finalOutput.append("| ");
-        for (String s : info) {
+        for (String s : jobInfo) {
             while (s.length() < 15) {
                 s = s + " ";
             }
