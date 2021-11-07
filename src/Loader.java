@@ -11,23 +11,23 @@ class Loader
     static void load() {
         int index = 0;
         try {
-            File f = new File("src/Program-File-Wordversion-30-JOBS.txt");
-            Scanner scanner = new Scanner(f);
+            File programfile = new File("src/Program-File-Wordversion-30-JOBS.txt");
+            Scanner scanner = new Scanner(programfile);
             PCB current_pcb = null;
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
                 if (line.startsWith("//")) {
-                    String[] instrCodes = line.substring(3).split(" ");
-                    switch (instrCodes[0]) {
+                    String[] instructions = line.substring(3).split(" ");
+                    switch (instructions[0]) {
                         case "JOB": {
-                            current_pcb = new PCB(instrCodes[1], instrCodes[2], instrCodes[3], index);
+                            current_pcb = new PCB(instructions[1], instructions[2], instructions[3], index);
                             break;
                         }
                         case "Data": {
                             if (current_pcb != null) {
-                                current_pcb.setInputBufferSize(Integer.parseInt(instrCodes[1], 16));
-                                current_pcb.setOutputBufferSize(Integer.parseInt(instrCodes[2], 16));
-                                current_pcb.setTempBufferSize(Integer.parseInt(instrCodes[3], 16));
+                                current_pcb.setInputBufferSize(Integer.parseInt(instructions[1], 16));
+                                current_pcb.setOutputBufferSize(Integer.parseInt(instructions[2], 16));
+                                current_pcb.setTempBufferSize(Integer.parseInt(instructions[3], 16));
                             }
                             break;
                         }

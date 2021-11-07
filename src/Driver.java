@@ -13,7 +13,7 @@ public class Driver {
     
 
     public static void main(String[] args) throws InterruptedException, IOException, BrokenBarrierException {
-        MetricCollector.printInfo();
+//        MetricCollector.print();
         exec(1, Scheduler.scheduler.FIFO);
         exec(1, Scheduler.scheduler.PRIORITY);
     }

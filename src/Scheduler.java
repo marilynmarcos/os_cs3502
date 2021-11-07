@@ -70,23 +70,6 @@ public class Scheduler {
     }
 
     /**
-     * Signal an interrupt on a CPU.
-     * @param cpu The CPU to be interrupted.
-     */
-    static void signalInterrupt(CPU cpu) {
-        cpu.setHasInterrupt(true);
-    }
-
-    /**
-     * Handle an interrupt on a CPU. Transitions the running job to a blocked state, and add it back to the queue.
-     * @param job The Job that is interrupted.
-     */
-    static void handleInterrupt(PCB job) {
-        job.setJobState(PCB.JobState.BLOCKED);
-        addJob(job);
-    }
-
-    /**
      * An enum that holds possible scheduler policys.
      */
     public enum scheduler {

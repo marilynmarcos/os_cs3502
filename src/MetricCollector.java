@@ -19,18 +19,6 @@ public class MetricCollector {
      * Print information regarding data values to a readme file.
      * @throws IOException When file cannot be written to.
      */
-    static void printInfo() throws IOException {
-        init("README.md");
-        bufferedWriter.write("# Job Metrics\n");
-        bufferedWriter.write("Job ID: ID number of the job.\n");
-        bufferedWriter.write("Waiting Time: Time in seconds that the job was waiting to be run.\n");
-        bufferedWriter.write("Completion Time: Time in seconds that the job took to complete.\n");
-        bufferedWriter.write("I/O Processes: Number of I/O processes that the job makes during its lifespan.\n");
-        bufferedWriter.write("MMU RAM % Used: At the time the job is run, percentage of RAM used by all jobs.\n");
-        bufferedWriter.write("Job RAM % Used: The percentage of RAM used by this job.\n");
-        bufferedWriter.write("Job Cache % Used: The percentage of cache of the assigned cpu used by this job.\n");
-        close();
-    }
 
 
     /**
@@ -50,10 +38,6 @@ public class MetricCollector {
                     + "," + jobPercentCache + "\n");
         }
     }
-    /**
-     * Print all Simulation Metrics to the file.
-     * @throws IOException When file cannot be written to.
-     */
 
     static void print_metrics() throws IOException {
         listJobMetrics();
@@ -61,13 +45,10 @@ public class MetricCollector {
         close();
     }
 
-
     static void start_time(long time) {
         globalStartTime = time;
     }
-    /**
-     * Close the buffered writer.
-     */
+
     static void close() throws IOException {
         bufferedWriter.close();
     }
