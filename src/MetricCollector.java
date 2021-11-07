@@ -27,14 +27,13 @@ public class MetricCollector {
      */
     static void listJobMetrics() throws IOException {
         bufferedWriter.write("# Job Metrics\n");
-        bufferedWriter.write("Job ID,Waiting Time,Completion Time,I/O Processes,MMU RAM % Used,Job RAM % Used,Job Cache % Used\n");
+        bufferedWriter.write("Job ID,Waiting Time,Completion Time,I/O Processes,Job RAM % Used,Job Cache % Used\n");
         for (PCB job : Scheduler.jobs) {
             long waitingTime = job.getStartTime() - globalStartTime;
-            double mmuPercentRam = (double) Math.round((double) job.getRamUsage() / Driver.ram_size * 1000) / 1000;
             double jobPercentRam = (double) Math.round((double) job.getTotalSize() / Driver.ram_size * 1000) / 1000;
             double jobPercentCache = (double) Math.round((double) job.getCacheUsage() / Driver.cache_size * 1000) / 1000;
             bufferedWriter.write(job.getJobId() + "," + waitingTime + "," +
-                    job.getCompletionTime() + "," + job.getNumIoProcesses() + "," + mmuPercentRam + "," + jobPercentRam
+                    job.getCompletionTime() + "," + job.getNumIoProcesses() + "," + jobPercentRam
                     + "," + jobPercentCache + "\n");
         }
     }

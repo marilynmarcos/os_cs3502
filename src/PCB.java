@@ -12,7 +12,7 @@ public class PCB implements Comparable<PCB> {
 
     // JOB STATE
     private JobState jobState;
-    private CPU currentCpu;
+    private CPU current_cpu;
     private Register[] registers = new Register[16];
 
     // INSTRUCTION INFORMATION
@@ -68,10 +68,7 @@ public class PCB implements Comparable<PCB> {
         this.jobState = jobState;
     }
     void setCurrentCpu(CPU cpu) {
-        this.currentCpu = cpu;
-    }
-    CPU getCurrentCpu() {
-        return currentCpu;
+        this.current_cpu = cpu;
     }
     Register[] getRegisters() {
         return registers;
