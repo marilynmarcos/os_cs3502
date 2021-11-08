@@ -13,24 +13,26 @@ public class Metrics {
     }
 
     //formatting of job metrics
-    static void listJobMetrics() throws IOException {
+    static void list_metrics() throws IOException {
         bufferedWriter.write("# Job Metrics\n");
         //metrics from specification document
         bufferedWriter.write("Job ID,Waiting Time,Completion Time,I/O Processes,Job RAM % Used,Job Cache % Used\n");
         for (PCB job : Scheduler.jobs) {
-            long waitingTime = job.getStartTime() - globalStartTime;
-            double jobPercentRam = (double) Math.round((double) job.getTotalSize() / Driver.ram_size * 1000) / 1000;
-            double jobPercentCache = (double) Math.round((double) job.getCacheUsage() / Driver.cache_size * 1000) / 1000;
+            long waiting_time = job.getStartTime() - globalStartTime;
+            //calculate percentage of cache each job uses
+            double job_cache = (double) Math.round((double) job.getCacheUsage() / Driver.cache_size * 1000) / 1000;
+            //calculate percentage of ram each job uses
+            double job_ram = (double) Math.round((double) job.getTotalSize() / Driver.ram_size * 1000) / 1000;
 
-            //if we use commas to seperate everything we can upload to excel to create graphs
-            bufferedWriter.write(job.getJobId() + "," + waitingTime + "," +
-                    job.getCompletionTime() + "," + job.getNumIoProcesses() + "," + jobPercentRam
-                    + "," + jobPercentCache + "\n");
+            //if we use commas to separate everything we can upload to excel to create graphs
+            bufferedWriter.write(job.getJobId() + "," + waiting_time + "," +
+                    job.getCompletionTime() + "," + job.getNumIoProcesses() + "," + job_ram
+                    + "," + job_cache + "\n");
         }
     }
 
     static void print_metrics() throws IOException {
-        listJobMetrics();
+        list_metrics();
         bufferedWriter.newLine();
         close();
     }
