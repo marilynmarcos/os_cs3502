@@ -1,37 +1,28 @@
 import java.io.*;
 
-public class MetricCollector {
+public class Metrics {
 
-    static BufferedWriter bufferedWriter;
     static long globalStartTime;
 
-    /**
-     * Initialize writer to a new file for the simulation.
-     * @param filename Name of the file.
-     * @throws IOException When file cannot be created.
-     */
+    static BufferedWriter bufferedWriter;
+
+    //create new file to track metrics
     static void init(String filename) throws IOException {
         File metrics = new File("./metrics/" + filename);
         bufferedWriter = new BufferedWriter(new PrintWriter(metrics));
     }
 
-    /**
-     * Print information regarding data values to a readme file.
-     * @throws IOException When file cannot be written to.
-     */
-
-
-    /**
-     * Write the individual Job Metrics to the file.
-     * @throws IOException When file cannot be written to.
-     */
+    //formatting of job metrics
     static void listJobMetrics() throws IOException {
         bufferedWriter.write("# Job Metrics\n");
+        //metrics from specification document
         bufferedWriter.write("Job ID,Waiting Time,Completion Time,I/O Processes,Job RAM % Used,Job Cache % Used\n");
         for (PCB job : Scheduler.jobs) {
             long waitingTime = job.getStartTime() - globalStartTime;
             double jobPercentRam = (double) Math.round((double) job.getTotalSize() / Driver.ram_size * 1000) / 1000;
             double jobPercentCache = (double) Math.round((double) job.getCacheUsage() / Driver.cache_size * 1000) / 1000;
+
+            //if we use commas to seperate everything we can upload to excel to create graphs
             bufferedWriter.write(job.getJobId() + "," + waitingTime + "," +
                     job.getCompletionTime() + "," + job.getNumIoProcesses() + "," + jobPercentRam
                     + "," + jobPercentCache + "\n");
