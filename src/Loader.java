@@ -2,49 +2,58 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-class Loader
-{
-    //load insructions
-    static void load() {
+/**
+ Loads information form the data into disk array.
+ */
+
+class Loader {
+    static void loadFile() {
+        //set up the variable for the index, string line, and a null PCB
         int index = 0;
+        String strline;
+        PCB pcb = null;
+        // try to look for file, if not exception is thrown
         try {
-            File programfile = new File("src/Program-File-Wordversion-30-JOBS.txt");
-            Scanner scanner = new Scanner(programfile);
-            PCB current_pcb = null;
-            while (scanner.hasNext()) {
-                String line = scanner.nextLine();
-                if (line.startsWith("//")) {
-                    String[] instructions = line.substring(3).split(" ");
-                    switch (instructions[0]) {
-                        case "JOB": {
-                            current_pcb = new PCB(instructions[1], instructions[2], instructions[3], index);
+            // creates file and scanner
+            File file = new File("src/Program-File-Wordversion-30-JOBS.txt");
+            Scanner sc = new Scanner(file);
+
+            while(sc.hasNext()) {
+                strline = sc.nextLine();
+                if (strline.startsWith("//")) {
+                    String[] instructionLines = strline.substring(3).split(" ");
+                    switch (instructionLines[0]) {
+                        case "JOB":{
+                            pcb = new PCB(instructionLines[1], instructionLines[2], instructionLines[3], index);
                             break;
                         }
                         case "Data": {
-                            if (current_pcb != null) {
-                                current_pcb.setInputBufferSize(Integer.parseInt(instructions[1], 16));
-                                current_pcb.setOutputBufferSize(Integer.parseInt(instructions[2], 16));
-                                current_pcb.setTempBufferSize(Integer.parseInt(instructions[3], 16));
+                            if(pcb != null) {
+                                pcb.setInputBufferSize(Integer.parseInt(instructionLines[1], 16));
+                                pcb.setOutputBufferSize(Integer.parseInt(instructionLines[2], 16));
+                                pcb.setTempBufferSize(Integer.parseInt(instructionLines[3], 16));
                             }
                             break;
                         }
                         case "END": {
-                            if (current_pcb != null) {
-                                current_pcb.setJobState(PCB.JobState.READY);
-                                Scheduler.addJob(current_pcb);
+                            if(pcb != null) {
+                                pcb.setJobState(PCB.JobState.READY);
+                                Scheduler.addJob(pcb);
                             }
                             break;
                         }
                     }
-                } else {
-                    // Store instruction on disk
-                    MMU.store_disk(index, line.substring(2, 10));
+                }
+                else {
+                    String code = strline.substring(2, 10);
+                    MMU.store_disk(index, code);
                     index++;
                 }
             }
 
-            scanner.close();
-        } catch (FileNotFoundException e) {
+            sc.close();
+        }
+        catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }

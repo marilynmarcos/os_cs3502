@@ -19,7 +19,7 @@ public class Driver {
         Scheduler.instructions.clear();
         Scheduler.jobs.clear();
         Scheduler.policy = policy;
-        Loader.load();
+        Loader.loadFile();
         MMU.init();
     }
 
