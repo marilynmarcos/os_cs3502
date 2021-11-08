@@ -120,10 +120,10 @@ public class PCB implements Comparable<PCB> {
     CPU getCurrrentCPU() {
         return CurrrentCPU;
     }
-    Register[] getRegisters() {
+    Register[] getregisters() {
         return registers;
     }
-    void setRegisters(Register[] registers) {
+    void setregisters(Register[] registers) {
         this.registers = registers;
     }
     int getNumberofInstructions() {

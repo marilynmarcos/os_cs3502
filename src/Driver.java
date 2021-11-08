@@ -8,12 +8,10 @@ public class Driver {
     static int disk_size = 2048;
     static int ram_size = 1024;
     static int cache_size = 128;
-    static int job_count = 30;
     static int thread_delay = 0;
     
 
     public static void main(String[] args) throws InterruptedException, IOException, BrokenBarrierException {
-//        MetricCollector.print();
         exec(1, Scheduler.scheduler.FIFO);
         exec(1, Scheduler.scheduler.PRIORITY);
     }
