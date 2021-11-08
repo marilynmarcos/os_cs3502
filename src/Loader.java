@@ -41,7 +41,7 @@ class Loader
                     }
                 } else {
                     // Store instruction on disk
-                    MMU.storeDisk(index, line.substring(2, 10));
+                    MMU.store_disk(index, line.substring(2, 10));
                     index++;
                 }
             }

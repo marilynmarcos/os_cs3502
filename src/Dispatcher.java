@@ -34,9 +34,9 @@ class Dispatcher {
      * @return The start index in RAM of an empty section big enough to hold the job's full instruction and data set.
      */
     static synchronized int accessRam(int totalSize, int diskStartIndex) {
-        int ramStartIndex = MMU.nextAvailableBits(totalSize);
+        int ramStartIndex = MMU.left(totalSize);
         for(int i = ramStartIndex; i < ramStartIndex + totalSize; i++) {
-            MMU.storeRam(i, MMU.loadDisk(diskStartIndex + i - ramStartIndex));
+            MMU.store_ram(i, MMU.load_disk(diskStartIndex + i - ramStartIndex));
         }
         return ramStartIndex;
     }

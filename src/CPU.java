@@ -87,7 +87,7 @@ public class CPU extends Thread {
                 jobCount++;
                 cpu_state = cpu_state.EXECUTING;
                 Dispatcher.loadJob(nextJob, this);
-                nextJob.setRamUsage(MMU.getRamUsage());
+                nextJob.setRamUsage(MMU.ram_usage());
                 loadInstructionsToCache();
                 nextJob.setCacheUsage(getCacheUsage());
                 while (continueExecution && pc < current_job.getNumberofInstructions()) {
@@ -102,7 +102,7 @@ public class CPU extends Thread {
                     current_job.incrementProgramCounter();
                     decode(hex);
                 }
-                MMU.clearBits(current_job.getRamStart(), current_job.getRamEnd());
+                MMU.clear_all(current_job.getRamStart(), current_job.getRamEnd());
                 Dispatcher.unloadJob(current_job, this);
                 cpu_state = cpu_state.FREE;
                 clearCache();
@@ -146,7 +146,7 @@ public class CPU extends Thread {
      */
     void loadInstructionsToCache() {
         for (int i = 0; i < current_job.getTotalSize(); i++) {
-            cache[i] = MMU.loadRam(current_job.getRamStart() + i);
+            cache[i] = MMU.load_ram(current_job.getRamStart() + i);
         }
     }
 

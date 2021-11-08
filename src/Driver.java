@@ -18,10 +18,6 @@ public class Driver {
         exec(1, Scheduler.scheduler.PRIORITY);
     }
 
-    /**
-     * Reset the simulation for another run.
-     * @param policy The policy of the scheduler (FIFO vs PRIORITY).
-     */
     static void reset(Scheduler.scheduler policy) {
         Scheduler.instructions.clear();
         Scheduler.jobs.clear();
@@ -30,14 +26,7 @@ public class Driver {
         MMU.init();
     }
 
-    /**
-     * Execution method of a run of the simulation.
-     * Starts all threads and initializes components.
-     * @param cores Number of cores to run the simulation with.
-     * @param policy The policy of the scheduler (FIFO vs PRIORITY).
-     * @throws IOException When MetricCollector cannot write to files.
-     * @throws InterruptedException When ExecutorService cannot execute threads.
-     */
+
     static void exec(int cores, Scheduler.scheduler policy) throws IOException, InterruptedException {
         // Reset simulation
         reset(policy);
