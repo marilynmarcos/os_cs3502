@@ -70,7 +70,7 @@ public class CPU extends Thread {
         evaluate(opcd[Integer.parseInt(opcodeBinary, 2)]);
     }
 
-    // Main thread execution of the CPU class. Each CPU will independently check for remaining jobs and execute them accordingly.
+    // Main thread execution of the CPU class. 
     @Override
     public void run() {
         // Checking if job completed successfully
