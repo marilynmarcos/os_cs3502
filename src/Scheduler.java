@@ -1,28 +1,21 @@
+//FIFO and priority policies
 import java.util.*;
 
-/**
- * Schedules jobs with FIFO or Priority scheduling policy.
- */
+
 public class Scheduler {
 
     public static scheduler policy;
     
-    /**
-     * Load 30 jobs into an array
-     */
+    // Load 30 jobs into an array
     public static final ArrayList<PCB> jobs = new ArrayList<>();
-
-    /**
-     * Load instruction set into an array
-     */
+    
+     //Load instruction set into an array
     public static ArrayList<CPU> instructions = new ArrayList<>();
 
     private static final PriorityQueue<PCB> priority_queue = new PriorityQueue<>();
     private static final LinkedList<PCB> fifo_queue = new LinkedList<>();
 
-    /**
-     * Add job
-     */
+    //Add job
     static void addJob(PCB job) {
         job.setAddedTime(System.currentTimeMillis());
         jobs.add(job);
@@ -33,45 +26,36 @@ public class Scheduler {
         }
     }
 
-    /**
-     * Add a CPU to the list of CPUs.
-     * Right now we only have one CPU, but part 2 we will need 4.
-     */
-    static void addCpu(CPU cpu) {
+    //Add a CPU to the list of CPUs.
+    //Right now we only have one CPU, but part 2 we will need 4.
+    static void add_CPU(CPU cpu) {
         instructions.add(cpu);
     }
 
-    /**
-     * Determine if there is a remaining job in the queue.
-     */
-    static synchronized boolean hasNext() {
-        PCB nextJob;
+    // Determine if there is a remaining job in the queue.
+    static synchronized PCB next() {
+        PCB next;
         if (policy == scheduler.PRIORITY) {
-            nextJob = priority_queue.peek();
+            next = priority_queue.poll();
         } else {
-            nextJob = fifo_queue.peek();
+            next = fifo_queue.poll();
         }
-        return nextJob == null;
+
+        if (next != null) {
+            next.setJobState(PCB.JobState.RUNNING);
+        }
+        return next;
     }
-
-
-    static synchronized PCB nextJob() {
-        PCB nextJob;
+    static synchronized boolean has_next() {
+        PCB next;
         if (policy == scheduler.PRIORITY) {
-            nextJob = priority_queue.poll();
+            next = priority_queue.peek();
         } else {
-            nextJob = fifo_queue.poll();
+            next = fifo_queue.peek();
         }
-
-        if (nextJob != null) {
-            nextJob.setJobState(PCB.JobState.RUNNING);
-        }
-        return nextJob;
+        return next == null;
     }
-
-    /**
-     * An enum that holds possible scheduler policys.
-     */
+    
     public enum scheduler {
         FIFO,
         PRIORITY

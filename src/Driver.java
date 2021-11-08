@@ -1,9 +1,8 @@
 import java.io.IOException;
 import java.util.concurrent.*;
 
-/**
- * Main Class Driver
- */
+//This is the main class
+
 public class Driver {
     static int disk_size = 2048;
     static int ram_size = 1024;
@@ -35,7 +34,7 @@ public class Driver {
         // Create CPU threads without starting
         for (int i = 0; i < cores; i++) {
             CPU cpu = new CPU(i);
-            Scheduler.addCpu(cpu);
+            Scheduler.add_CPU(cpu);
         }
 
         // Use ExecutorService to start threads all at once

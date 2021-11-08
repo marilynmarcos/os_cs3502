@@ -4,10 +4,7 @@ import java.util.Scanner;
 
 class Loader
 {
-    /**
-     * Loads instructions from data file into disk array.
-     * Creates new PCB objects for each job control card, storing important job information.
-     */
+    //load insructions
     static void load() {
         int index = 0;
         try {

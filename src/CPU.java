@@ -74,8 +74,8 @@ public class CPU extends Thread {
     @Override
     public void run() {
         // Checking if job completed successfully
-        while (!Scheduler.hasNext()) {
-            PCB nextJob = Scheduler.nextJob();
+        while (!Scheduler.has_next()) {
+            PCB nextJob = Scheduler.next();
             if (nextJob != null) {
                 jobCount++;
                 cpu_state = cpu_state.EXECUTING;
